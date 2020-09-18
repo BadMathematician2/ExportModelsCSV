@@ -1,17 +1,17 @@
 <?php
 
 
-namespace ExportModelsCSV;
+namespace Export;
 
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 
 /**
- * Class ExportModelsCSV
- * @package App\Packages\ExportModelsCSV\src
+ * Class ExportCSV
+ * @package Export
  */
-class ExportModelsCSV
+class ExportCSV implements Export
 {
     /**
      * @var array
@@ -20,17 +20,18 @@ class ExportModelsCSV
     /**
      * @var string[]
      */
-    private $exept;
+    private $except;
 
     /**
      * @param Collection $models
-     * @param string $file_name
-     * @param array $exept
+     * @param array $params
      */
-    public function exportModels(Collection $models, string $file_name, array $exept = ['created_at','updated_at'])
+    public function export(Collection $models, array $params )
     {
-        $this->exept = $exept;
-        $f = fopen($file_name . '.csv', 'w');
+        if (isset($params['except'])) {
+            $this->except = $params['except'];
+        }
+        $f = fopen($params['file_path'] . '.csv', 'w');
 
         $this->initColumns($models[0]);
         fputcsv($f, $this->columns);
@@ -51,7 +52,7 @@ class ExportModelsCSV
         $columns = $model->getAttributes();
 
         foreach ($columns as $column => $value) {
-            if (! in_array($column, $this->exept)) {
+            if (! in_array($column, $this->except)) {
                 $this->columns[] = $column;
             }
         }
@@ -67,7 +68,7 @@ class ExportModelsCSV
         $values = $model->getAttributes();
 
         foreach ($values as $key => $value) {
-            if (in_array($key, $this->exept)) {
+            if (in_array($key, $this->except)) {
                 unset($values[$key]);
             }
         }

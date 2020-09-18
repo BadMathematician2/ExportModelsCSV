@@ -12,17 +12,14 @@
     "require": {},
     "autoload": {
         "psr-4": {
-            "ExportModelsCSV\\": "src"
+            "Export\\": "src"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "\\ExportModelsCSV\\ExportModelsCSVProvider"
-            ],
-            "aliases": {
-                "ExportModels":  "\\ExportModelsCSV\\ExportModelsCSVFacade"
-            }
+                "ExportProvider"
+            ]
         }
     }
 }
