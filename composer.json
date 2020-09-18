@@ -1,0 +1,28 @@
+{
+    "name": "wtg-package/export-models",
+    "description": "Export models in csv file",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Mykola",
+            "email": "mathematic204chnu@gmail.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "ExportModelsCSV\\": "src"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "\\ExportModelsCSV\\ExportModelsCSVProvider"
+            ],
+            "aliases": {
+                "ExportModels":  "\\ExportModelsCSV\\ExportModelsCSVFacade"
+            }
+        }
+    }
+}
