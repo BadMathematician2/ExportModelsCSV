@@ -1,6 +1,6 @@
 {
     "name": "wtg-package/export-models",
-    "description": "Export models in csv file",
+    "description": "Export models collection",
     "type": "library",
     "license": "MIT",
     "authors": [
@@ -18,7 +18,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "ExportProvider"
+                "\\Export\\ExportProvider"
             ]
         }
     }
