@@ -4,6 +4,7 @@
 namespace Export;
 
 
+use GoogleMap\Exceptions\InvalidKeyException;
 use Illuminate\Database\Eloquent\Collection;
 
 /**
@@ -23,9 +24,13 @@ class ExportManager
      * @param string $type
      * @param Collection $models
      * @param array $params
+     * @throws InvalidKeyException
      */
     static function export(string $type, Collection $models, array $params)
     {
+        if (! key_exists($type, static::$types)) {
+            throw new InvalidKeyException('Invalid export type');
+        }
         (new static::$types[$type])->export($models, $params);
     }
 

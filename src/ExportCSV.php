@@ -4,6 +4,7 @@
 namespace Export;
 
 
+use Export\Exceptions\FilePathException;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 
@@ -25,12 +26,11 @@ class ExportCSV implements Export
     /**
      * @param Collection $models
      * @param array $params
+     * @throws FilePathException
      */
     public function export(Collection $models, array $params )
     {
-        if (isset($params['except'])) {
-            $this->except = $params['except'];
-        }
+       $this->checkParams($params);
         $f = fopen($params['file_path'] . '.csv', 'w');
 
         $this->initColumns($models[0]);
@@ -74,6 +74,20 @@ class ExportCSV implements Export
         }
 
         return $values;
+    }
+
+    /**
+     * @param array $params
+     * @throws FilePathException
+     */
+    private function checkParams(array $params)
+    {
+        if (isset($params['except'])) {
+            $this->except = $params['except'];
+        }
+        if (! isset($params['file_path'])) {
+            throw new FilePathException('In params must be file_path and it must be not null!');
+        }
     }
 
 }
